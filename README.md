@@ -30,8 +30,38 @@
 ## 📦 Установка зависимостей
 
 ```bash
+brew install libomp
+```
 
+Файлы `stb_image.h` и `stb_image_write.h` должны лежать в корне проекта.
 
+## 🔨 Сборка
+
+```bash
+clang++ -std=c++17 -O3 \
+  -Xpreprocessor -fopenmp \
+  -I$(brew --prefix libomp)/include \
+  -L$(brew --prefix libomp)/lib -lomp \
+  -framework OpenCL \
+  main.cpp -o filters
+```
+
+## ▶️ Запуск
+
+```bash
+./filters [имя_файла.png]
+```
+
+Без аргумента берётся `input.png` по умолчанию.
+
+Пример прогона на нескольких размерах:
+```bash
+./filters 300x.png
+./filters 500x.png
+./filters 2400x.png
+```
+
+После запуска программа выводит замеры всех 12 функций для указанной картинки и сохраняет результат последнего применённого фильтра в `output.png`.
 
 
 
